@@ -41,8 +41,28 @@ class Vector3:
     def subtract(a, b):
         return Vector3(a.x-b.x, a.y-b.y, a.z-b.z)
     def dot(a, b):
-        return a.x*b.x + a.y*b.y + a.z+b.z
+        return a.x*b.x + a.y*b.y + a.z*b.z
     def cross(a, b):
         return Vector3(a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x)
     def scale(self, scalar):
         return Vector3(self.x * scalar, self.y * scalar, self.z * scalar)
+
+class TMatrix:
+    def __init__(self, xx, xy, xz, yx, yy, yz, zx, zy, zz, tx, ty, tz):
+        self.x = Vector3(xx, xy, xz)# xx yx zx tx
+        self.y = Vector3(yx, yy, yz)# xy yy zy ty
+        self.z = Vector3(zx, zy, zz)# xz yz zz tz
+        self.t = Vector3(tx, ty, tz)# 0  0  0  1
+    def apply(self, vector):
+        if self.t.x != 0 or self.t.y != 0 or self.t.z != 0:
+            vector = Vector3.add(vector, self.t)
+        return Vector3.add(Vector3.add(self.x.scale(vector.x), self.y.scale(vector.y)), self.x.scale(vector.z))
+class TMatrix2D:
+    def __init__(self, xx, xy, yx, yy, tx, ty):
+        self.x = Vector2(xx, xy)
+        self.y = Vector2(yx, yy)
+        self.t = Vector2(tx, ty)
+    def apply(self, vector):
+        if self.t.x != 0 or self.t.y != 0:
+            vector = Vector2.add(vector, self.t)
+        return Vector2.add(self.x.scale(vector.x), self.y.scale(vector.y))
