@@ -66,3 +66,30 @@ class TMatrix2D:
         if self.t.x != 0 or self.t.y != 0:
             vector = Vector2.add(vector, self.t)
         return Vector2.add(self.x.scale(vector.x), self.y.scale(vector.y))
+class quaternion:
+    def __init__(self, w, i, j, k):
+        self.w = w
+        self.i = i
+        self.j = j
+        self.k = k
+    def axisAngle(axis, angle):
+        angle = angle/2
+        sinAngle = math.sin(angle)
+        return quaternion(math.cos(angle), sinAngle * axis.x, sinAngle * axis.y, sinAngle * axis.z)
+    def _applyFirstHalf(self, vector):
+        i = self.w*vector.x + self.j*vector.z - self.k*vector.y
+        j = self.w*vector.y + self.k*vector.x - self.i*vector.z
+        k = self.w*vector.z + self.i*vector.y - self.j*vector.x
+        return Vector3(i, j, k)
+#    def _applySecondHalf(self, vector):#with some rearanging its the same as first half
+#        i = vector.x*self.w - vector.y*self.k + vector.z*self.j
+#        j = vector.y*self.w - vector.z*self.i + vector.x*self.k
+#        k = vector.z*self.w - vector.x*self.j + vector.y*self.i
+    def apply(self, vector):
+        return self._applyFirstHalf(self._applyFirstHalf(vector))
+    def combine(q1, q2):
+        w = q1.w*q2.w - q1.i*q2.i - q1.j*q2.j - q1.k*q2.k
+        i = q1.w*q2.i + q1.i*q2.w + q1.j*q2.k - q1.k*q2.j
+        j = q1.w*q2.j + q1.j*q2.w + q1.k*q2.i - q1.i*q2.k
+        k = q1.w*q2.k + q1.k*q2.w + q1.i*q2.j - q1.j*q2.i
+        return quaternion(w, i, j, k)
