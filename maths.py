@@ -46,6 +46,31 @@ class Vector3:
         return Vector3(a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x)
     def scale(self, scalar):
         return Vector3(self.x * scalar, self.y * scalar, self.z * scalar)
+class Vector4:
+    def __init__(self, x, y, z, w):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.w = w
+    def magnitude(self):
+        return math.sqrt(self.x**2 + self.y**2 + self.z**2 + self.w**2)
+    def normalised(self):
+        magnitude = self.magnitude()
+        return Vector4(self.x/magnitude, self.y/magnitude, self.z/magnitude)
+    def normalise(self):
+        magnitude = self.magnitude
+        self.x = self.x/magnitude
+        self.y = self.y/magnitude
+        self.z = self.z/magnitude
+        self.w = self.w/magnitude
+    def add(a, b):
+        return Vector4(a.x+b.x, a.y+b.y, a.z+b.z, a.w+b.w)
+    def subtract(a, b):
+        return Vector4(a.x-b.x, a.y-b.y, a.z-b.z, a.w-b.w)
+    def dot(a, b):
+        return a.x*b.x + a.y*b.y + a.z*b.z + a.w*b.w
+    def scale(self, scalar):
+        return Vector4(self.x*scalar, self.y*scalar, self.z*scalar, self.w*scalar)
 class TMatrix33:
     def __init__(self, xx, xy, xt, yx, yy, yt, tx, ty, tt):
         self.xx = xx
