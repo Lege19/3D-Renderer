@@ -5,3 +5,4 @@ Dependancies:
 
 pySDL2
 pySDL2-dll
+numpy
