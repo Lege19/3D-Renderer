@@ -12,6 +12,9 @@ def startUp():#initialise values
     outputSurface = SDL_GetWindowSurface(win)
     testFail(outputSurface)
     pixels = ctypes.cast(outputSurface[0].pixels, ctypes.POINTER(ctypes.c_uint32))
+    #pixels is an array of 32-bit unsigned integers
+    #colours can be set as 0xrrggbbaa
+    #in standard rgba hexadecimal
 def shutDown():#stops the program
     SDL_FreeSurface(outputSurface)
     SDL_Quit()
