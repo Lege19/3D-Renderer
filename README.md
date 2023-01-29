@@ -1,5 +1,5 @@
 # 3D-Renderer
-A 3d rendering project I am doing
+A 3d rendering project I am making for DofE
 
 Dependancies:
 
